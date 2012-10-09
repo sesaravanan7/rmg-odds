@@ -1,0 +1,37 @@
+RMG Technology (M) Sdn. Bhd. produces the software which powers the
+BetOnMarkets.com fixed-odds financial betting platform.
+
+BetOnMarkets clients purchase wagers on the movements of widely traded
+financial instruments. These wagers are binary (or digital) options.
+That is, if the predicted event occurs, the client receives the full
+payout. Otherwise, they receive nothing.
+
+The core of the business, then, is in determining the probability that
+a particular event will occur. On the other hand, clients are concerned
+with the odds on their stake and the potential return for a correct
+wager.
+
+This exercise is intended to bridge the gap between these two disparate
+ways of presenting this information. The task is to produce an OO perl
+module which, when constructed from a given probability, can produce
+decimal odds and ROI suitable for display to a client.
+
+An example:
+
+my $oc = OddsConverter->new(probability => 0.5);
+print $oc->decimal_odds;    # '2.00' (always 2 decimal places or 'Inf.')
+print $oc->roi;             # '100%' (always whole numbers or 'Inf.')
+
+You may find this Wikipedia article useful in understanding the concepts
+involved: https://en.wikipedia.org/wiki/Fixed-odds_betting
+
+We have provided a bare bones OddsConverter.pm. We have also included a
+test suite in t/ to help ensure that your module operates properly. You
+may create additional tests to verify your implementation, if you wish.
+Please add any such tests in your own files under t/.
+
+Please feel free to use any modules from CPAN to aid in the completion
+of this project. We strongly encourage you to use modern perl
+techniques. However, please be aware that many of our critical path
+machines are on perl 5.10, so demonstrating an ability to work under
+that constraint is a bonus.
