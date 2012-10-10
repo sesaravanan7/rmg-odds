@@ -1,7 +1,6 @@
 package OddsConverter;
 use v5.12;
 use Moose;    #Using moose for object orientation
-use POSIX;
 
 =head1 NAME
 
@@ -29,12 +28,7 @@ sub decimal_odds {
             $prob = $self->calc_sign( $sign, $prob );
         }
     }
-    else {
-        $prob = $self->probability;
-    }
-    my $ret = $self->calc_dec_odds($prob);
-
-    return ($ret);
+    return ($self->calc_dec_odds($prob));
 }
 
 #calculation of ROI
@@ -42,23 +36,18 @@ sub decimal_odds {
 sub roi {
     my $self = shift;
     my $prob = $self->probability;
-    if ( $prob =~ /e/g ) {
-        $prob =~ s/e//g;
+    if ( $prob =~ s/e//g ) {
         if ( $prob =~ /(\-|\+)/g ) {
             my $sign = $1;
             $prob = $self->calc_sign( $sign, $prob );
         }
     }
-    else {
-        $prob = $self->probability;
-    }
     my $ret = $self->calc_dec_odds($prob);
     unless ( $ret =~ /Inf\./g ) {
         $ret = ( $ret - ( $prob * $ret ) );
         $ret = sprintf( "%.2f", $ret );
-        $ret = 100 * ($ret)
-          ; #calculating the ROI using the formula (100 *(decimal_odds-(probability*decimal_odds))
-        $ret = $ret . '%';    #conveting to percentage
+        $ret = 100 * ($ret) ; #calculating the ROI using the formula (100 *(decimal_odds-(probability*decimal_odds))
+        $ret .= '%';    #conveting to percentage
     }
     return ($ret);
 }
@@ -67,10 +56,8 @@ sub roi {
 sub calc_sign {
     my ( $sign, $prob ) = @_;
     my ( $first, $sec ) = split( /^$sign$/, $prob );
-    $prob = ( ($first) / ( 10**$sec ) )
-      if ( $sign =~ /\-/g ); #calculating the  exponent value base on minus sign
-    $prob = ( ($first) * ( 10**$sec ) )
-      if ( $sign =~ /\+/g );    #calculating the exponent based on the plus sign
+    $prob = ( ($first) / ( 10**$sec ) ) if ( $sign =~ /\-/g ); #calculating the  exponent value base on minus sign
+    $prob = ( ($first) * ( 10**$sec ) ) if ( $sign =~ /\+/g );    #calculating the exponent based on the plus sign
     return $prob;
 }
 
@@ -88,8 +75,7 @@ sub calc_dec_odds {
             $ret = sprintf( "%.2f", $ret );
         };
         if ($@) {
-            $ret =
-              'Inf.';    #checking for infinite value and replacing the string.
+            $ret = 'Inf.';    #checking for infinite value and replacing the string.
         }
     }
     return $ret;

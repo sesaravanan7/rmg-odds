@@ -1,8 +1,5 @@
 use Test::More (tests => 9);
 use Test::Exception;
-push(@INC,'/Users/saravase/Documents/work/perl/mal/rmg-odds/libs');
-use OddsConverter;
-
 use_ok('OddsConverter');
 
 new_ok('OddsConverter' => [probability => 0.5]);
